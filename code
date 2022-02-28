@@ -1,0 +1,344 @@
+#packages
+import pygame
+import sys
+import pyttsx3
+import time
+import random
+from pygame import mixer
+pygame.init()
+assistant= pyttsx3.init()
+screen= pygame.display.set_mode((800,600))
+pygame.display.set_caption(" Música")
+music=['Stay','Trampoline','Stuck with You','Lucid Dreams']
+leng=0
+mov=0
+mov1=0
+pt=0
+l_m=0
+#icons
+icon=pygame.image.load('icons\\music.png')
+pygame.display.set_icon(icon)
+playimg=pygame.image.load('icons\\play.png')
+stopimg=pygame.image.load('icons\\stop.png')
+nextimg=pygame.image.load('icons\\next.png')
+pauseimg=pygame.image.load('icons\\pause.png')
+wave=pygame.image.load('icons\\playlist.png')
+previmg=pygame.image.load('icons\\previous.png')
+exitimg=pygame.image.load('icons\\exit.png')
+abtimg=pygame.image.load('icons\\about.png')
+volimg=pygame.image.load('icons\\volume.png')
+muteimg=pygame.image.load('icons\\mute.png')
+upimg=pygame.image.load('icons\\up.png')
+downimg=pygame.image.load('icons\\down.png')
+dot=pygame.image.load('icons\\dot.png')
+#bgs
+credbg=pygame.image.load('images\\bg2.png')
+bg1=pygame.image.load('images\\bg.png')
+bg2=pygame.image.load('images\\bg3.png')
+bg3=pygame.image.load('images\\bg4.png')
+bg4=pygame.image.load('images\\bg5.png')
+bg5=pygame.image.load('images\\bg6.png')
+l=pygame.image.load('images\\line.png')  
+bg_l=[bg1,bg2,bg3,bg4,bg5]
+#text
+font=pygame.font.Font('fonts\\Valid Harmony.ttf',38)
+font_play=pygame.font.Font('fonts\\Frederick Greatong.ttf',50)
+font_cred=pygame.font.Font('fonts\\Valid Harmony.ttf',58)
+font_time=pygame.font.Font('fonts\\Valid Harmony.ttf',18)
+esc_txt=font.render("ESC",True,(255,255,255))
+abt_txt=font.render("ABOUT",True,(255,255,255))
+cred_txt=font_cred.render("Created by DONEL",True,(255,255,255))
+vol_txt=font.render("|||||",True,(77,144,246))
+quit_txt=font_cred.render("QUITTING Música",True,(255,255,255))
+#functions
+def play():  
+        mixer.music.load("music\\"+music[i]+'.wav')
+        a=pygame.mixer.Sound("music\\"+music[i]+'.wav')
+        ls=[]
+        leng=a.get_length()
+        ls.append(leng)
+        mixer.music.play(-1)     
+        w=float(501/(int(leng)*5))
+        ls.append(float(format(w+(2/leng),"0.2f")))
+        return ls
+def pause(): 
+    mixer.music.pause()  
+
+def unpause():
+    mixer.music.unpause()
+        
+def say():
+    assistant.say("Playing "+music[i])
+    assistant.runAndWait()
+
+def sayex():
+    assistant.say("Quitting Música")
+    assistant.runAndWait()
+#variables
+is_playing=False
+is_pause=False
+is_cont=False
+is_mute=False
+running=True
+vold=False
+space_c=0
+i=0
+b=1
+c_i=0
+vol=1.0
+s=""
+backgrnd=random.choice(bg_l)
+
+#main loop
+while(running):
+    #blit
+    if b==1:
+        screen.blit(backgrnd,(0,0))
+        screen.blit(nextimg,(490,430))
+        screen.blit(playimg,(360,500))
+        screen.blit(previmg,(230,430))
+        screen.blit(exitimg,(5,5))
+        screen.blit(esc_txt,(15,67))
+        screen.blit(abtimg,(720,5))
+        screen.blit(abt_txt,(715,67))
+        screen.blit(l,(149,405))  
+        screen.blit(dot,(145,399))  
+
+    def blit():
+        screen.blit(credbg,(0,0))
+        screen.blit(cred_txt,(435,420))
+        pygame.display.update()
+    
+    def voldown():
+        n=int(vol/0.2)
+        s="|"*n
+        return s
+
+    def dur(x):
+        x=int(x)
+        mt=str(x//60)
+        sec=str(x%60)
+        if len(mt)<2:
+            mt="0"+mt
+        if len(sec)<2:
+            sec="0"+sec
+        tim=mt+":"+sec
+        tim_txt=font_time.render(tim,True,(255,255,255))
+        return tim_txt
+
+    if is_playing:
+        if is_space:
+            screen.blit(backgrnd,(0,0))
+            screen.blit(nextimg,(490,430))
+            screen.blit(pauseimg,(360,500))
+            screen.blit(previmg,(230,430))
+            screen.blit(wave,(360,340))
+            screen.blit(exitimg,(5,5))
+            screen.blit(esc_txt,(15,67))
+            screen.blit(abtimg,(720,5))
+            screen.blit(abt_txt,(715,67))
+            screen.blit(vol_txt,(400,262))
+            screen.blit(volimg,(335,250))
+            screen.blit(upimg,(292,245))
+            screen.blit(downimg,(292,285))
+            screen.blit(l,(149,405)) 
+            screen.blit(dot,(145.0+mov,399))
+            screen.blit(tim_txt,(660,398))  
+            screen.blit(pt_txt,(112,398))  
+            
+        if is_pause:
+            screen.blit(backgrnd,(0,0))
+            screen.blit(nextimg,(490,430))
+            screen.blit(stopimg,(360,500))
+            screen.blit(previmg,(230,430))
+            screen.blit(wave,(360,340))
+            screen.blit(exitimg,(5,5))
+            screen.blit(esc_txt,(15,67))
+            screen.blit(abtimg,(720,5))
+            screen.blit(abt_txt,(715,67))
+            screen.blit(vol_txt,(400,262))
+            screen.blit(volimg,(335,250))
+            screen.blit(upimg,(292,245))
+            screen.blit(downimg,(292,285))
+            screen.blit(l,(149,405)) 
+            screen.blit(dot,(145.0+mov,399))  
+            screen.blit(tim_txt,(660,398))
+            screen.blit(pt_txt,(112,398))  
+        
+        if is_cont:
+            screen.blit(backgrnd,(0,0))
+            screen.blit(nextimg,(490,430))
+            screen.blit(pauseimg,(360,500))
+            screen.blit(previmg,(230,430))
+            screen.blit(wave,(360,340))
+            screen.blit(exitimg,(5,5))
+            screen.blit(esc_txt,(15,67))
+            screen.blit(abtimg,(720,5))
+            screen.blit(abt_txt,(715,67))
+            screen.blit(vol_txt,(400,262))
+            screen.blit(volimg,(335,250))
+            screen.blit(upimg,(292,245))
+            screen.blit(downimg,(292,285))
+            screen.blit(l,(149,405)) 
+            screen.blit(dot,(145.0+mov,399))  
+            screen.blit(tim_txt,(660,398)) 
+            screen.blit(pt_txt,(112,398)) 
+        
+        if vold:
+            st=voldown()
+            vol_txt=font.render(st,True,(77,144,246))
+            screen.blit(vol_txt,(400,262))
+        
+        if is_mute:
+            screen.blit(muteimg,(335,250))
+        
+        playing_txt=font_play.render("Playing "+music[i]+"...",True,(77,144,246))
+        text_rect = playing_txt. get_rect(center=(800/2, 170))     #self-centering text
+        screen.blit(playing_txt,text_rect)       
+        pygame.display.update()
+    #event checking   
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            pause()
+            screen.blit(backgrnd,(0,0))
+            q_rect = quit_txt. get_rect(center=(400,300))  
+            screen.blit(quit_txt,q_rect)
+            sayex()
+            time.sleep(0.5)
+            running=False
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_SPACE and c_i%2==0:
+                space_c+=1
+                if space_c==1:
+                    is_playing=True
+                    is_space=True
+                    say()
+                    ls=play()
+                    mov=ls[1]
+                    mov1=mov
+                    l_m=ls[0]
+                    tim_txt=dur(l_m)
+                    #pt+=0.2
+                    mov+=mov1
+                elif space_c%2==0:
+                    is_cont=False
+                    is_pause=True
+                    pause()
+                elif space_c%2!=0:
+                    is_pause=False
+                    is_cont=True
+                    unpause()
+            
+            if event.key==pygame.K_RIGHT and c_i%2==0:
+                space_c=1
+                pt=0
+                mov=0   #!!!!!!!
+                backgrnd=random.choice(bg_l)
+                is_cont=True
+                i=i+1
+                is_playing=True
+                is_space=True
+                is_pause=False
+                pause()
+                if i>=len(music):
+                    i=0
+                    say()
+                    ls=play()
+                    mov=ls[1]
+                    l_m=ls[0]
+                    tim_txt=dur(l_m)
+                    mov+=mov1
+                else:
+                    say()
+                    ls=play()
+                    mov=ls[1]
+                    mov1=mov
+                    l_m=ls[0]
+                    tim_txt=dur(l_m)
+                    mov+=mov1
+            
+            if event.key==pygame.K_LEFT and c_i%2==0:
+                space_c=1
+                pt=0
+                mov=-1
+                backgrnd=random.choice(bg_l)
+                is_cont=True
+                i=i-1
+                pause()
+                is_space=True
+                is_playing=True
+                is_pause=False
+                if i<0:
+                    i=len(music)-1
+                    say()
+                    ls=play()
+                    mov=ls[1]
+                    l_m=ls[0]
+                    tim_txt=dur(l_m)
+                    mov+=mov1
+                else:
+                    say()
+                    ls=play()
+                    mov=ls[1]
+                    mov1=mov
+                    l_m=ls[0]
+                    tim_txt=dur(l_m)
+                    mov+=mov1
+            
+            if event.key==pygame.K_ESCAPE:
+                pause()
+                screen.blit(backgrnd,(0,0))
+                q_rect = quit_txt. get_rect(center=(400,300))  
+                screen.blit(quit_txt,q_rect)
+                sayex()
+                time.sleep(0.7)
+                running=False
+            
+            if event.key==pygame.K_i:
+                c_i+=1
+                is_playing=False
+                if c_i%2!=0:
+                    b=0
+                    blit()
+                    pause()
+                else:
+                    if space_c==0:
+                        is_playing=False
+                        b=1
+                    else:
+                        space_c=2
+                        b=1
+                        is_playing=True
+                        is_pause=True
+                        is_cont=False
+
+            if space_c!=0:
+                if event.key==pygame.K_DOWN and c_i%2==0:
+                    vold=True
+                    if vol>0.2:
+                        vol=vol-0.2
+                    if vol<=0.2:
+                        is_mute=True
+                    mixer.music.set_volume(vol)
+                
+                if event.key==pygame.K_UP and c_i%2==0:
+                    is_mute=False
+                    if vol<1:
+                        vol=vol+0.2
+                    mixer.music.set_volume(vol)
+            
+    pt_txt=dur(pt)
+    pygame.display.update()
+    if is_pause!=True:
+        mov+=mov1
+        pt+=0.2
+        time.sleep(0.2)
+    
+    if mov>=501:
+        mov=0
+        pt=0
+        pause()
+        say()
+        play()
+
+    pygame.display.update()
